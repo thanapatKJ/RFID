@@ -1,0 +1,28 @@
+{% extends 'WebApplication/base.html' %}
+
+{% block content %}
+<h2 align="center">ลงทะเบียน</h2>
+{% for message in form.error %}
+    <h3>{{message}}</h3>
+{% endfor %}
+<form method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+    <p>
+        {{ field.label_tag}}<br>
+        {{ field }}
+        {% if field.help_text %}
+            <br>
+            <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+            <p style="color: red">{{ error }}</p>
+        {% endfor %}
+    </p>
+    {% endfor %}
+    <br>
+    <input type="submit" value="ลงทะเบียน" class="btn btn-primary">
+    
+</form>
+
+{% endblock %}

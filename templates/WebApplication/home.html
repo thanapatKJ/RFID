@@ -1,0 +1,77 @@
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+{% extends 'WebApplication/base.html' %}
+
+{% block content %}
+<title>Mechatronis store</title>
+<h2 align="center">แสดงข้อมูล</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ลำดับ</th>
+            <th scope="col">ID</th>
+            <th scope="col">ชื่อ</th>
+            <th scope="col">วันที่เพิ่ม</th>
+            <th scope="col">สถานะ</th>
+          
+        </tr>
+    </thead>
+    <tbody id="table-data">
+    {% for object in objects %}    
+      <tr class="table-active" id="table">
+        <th scope="row">{{forloop.counter}}</th>
+        <td><a href="{% url 'WebApplication:item' object.tag_id %}"> {{object.tag_id}}</a></td>
+        <td>{{object.tag_name}}</td>   
+        <td>{{object.add_date}}</td> 
+        <td>{{object.status}}</td>
+        <td><a href="{% url 'WebApplication:edit' object.tag_id %}">แก้ไข</a></td>      
+        <td><a style="color: red" href="{% url 'WebApplication:delete' object.tag_id %}">ลบข้อมูล</a></td>      
+      </tr>
+    {% endfor %} 
+    </tbody>
+  </table>
+
+  </ul>
+  <script>
+    $(document).ready(function(){
+      setInterval(function(){
+        $.ajax({
+          type:'GET',
+          url :"{% url 'API:getAllItem' %}",
+          success: function(response){
+          // console.log(response);
+            // Table Data
+            $("#table-data").empty();
+            for (var key in response.objects){
+              var row = $('<tr>').addClass('table-active');
+              var cell1 = $('<th scope="row">').text(parseInt(key)+1);
+              var cell21 = $('<td>')
+              var itemurl = '{% url "WebApplication:item" "args1" %}'.replace('args1', response.objects[key].tag_id);
+              var cell22 = '<a href="'+itemurl+'">'+response.objects[key].tag_id+'</a>';
+              $(cell21).append(cell22);
+              var cell3 = $('<td>').text(response.objects[key].tag_name);
+              var cell4 = $('<td>').text(response.objects[key].add_date);
+              var cell5 = $('<td>').text(response.objects[key].status);
+              var edittd = $('<td>');
+              var deletetd = $('<td>');
+              var editurl = '{% url "WebApplication:edit" "args1" %}'.replace('args1', response.objects[key].tag_id);
+              var deleteurl = '{% url "WebApplication:delete" "args1" %}'.replace('args1', response.objects[key].tag_id);
+              var editdata = '<a href="'+editurl+'">แก้ไข'+'</a>';
+              var deletedata = $('<a href="'+deleteurl+'">').css('color','red').text('ลบข้อมูล');
+              $(edittd).append(editdata);
+              $(deletetd).append(deletedata);
+              $(row).append(cell1,cell21,cell3,cell4,cell5,edittd,deletetd);
+              $("#table-data").append(row);
+            }
+          },
+          error: function(response){
+            console.log("An Error Occured");
+          }
+        });
+      },1000);
+    });
+  </script>
+{% endblock %}

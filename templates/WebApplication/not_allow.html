@@ -1,0 +1,54 @@
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+{% extends 'WebApplication/base.html' %}
+
+{% block content %}
+<title>Mechatronis store</title>
+<h2 align="center">แจ้งเตือนเมื่อตู้ถูกเปิด</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ลำดับ</th>
+            <th scope="col">วันที่</th>
+        </tr>
+    </thead>
+    <tbody id="table-data">
+      {% for object in objects %}    
+      <tr class="table-active">
+        <th>{{forloop.counter}}</th>        
+        <td>{{object.date_time}}<a href="{% url 'WebApplication:editNotAllow' object.date_time %}">(คลิกลิงค์เพื่อดูรูป)</a></td>
+      </tr>
+      {% endfor %} 
+    </tbody>
+  </table>
+  <script>
+    $(document).ready(function(){
+      setInterval(function(){
+        $.ajax({
+          type:'GET',
+          url :"{% url 'API:getAllNotAllowed' %}",
+          success: function(response){
+            $("#table-data").empty();
+            for (var key in response.objects){
+              var row = $('<tr>').addClass('table-active');
+              var cell1 = $('<th scope="row">').text(parseInt(key)+1);
+              var cell21 = $('<td>').text(response.objects[key].date_time);
+              var cell2url = '{% url "WebApplication:editNotAllow" "args1" %}'.replace('args1', response.objects[key].date_time);
+              var cell22 = $('<a href="'+cell2url+'">').text('(คลิกลิงค์เพื่อดูรูป)');
+              $(cell21).append(cell22);
+              $(row).append(cell1,cell21);
+              $("#table-data").append(row);
+            }
+          },
+          error: function(response){
+            console.log("An Error Occured");
+          }
+        });
+      },1000);
+    });
+  </script>
+
+{% endblock %}

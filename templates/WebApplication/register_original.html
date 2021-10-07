@@ -1,0 +1,41 @@
+{% extends 'WebApplication/base.html' %}
+
+{% block content %}
+<h2 align="center">ลงทะเบียน</h2>
+{% for message in form.error %}
+    <h3>{{message}}</h3>
+{% endfor %}
+<form method="POST">
+    {% csrf_token %}
+
+
+    <div class="form-group w-50" >
+        <label for="first_name">Firstname</label>
+        <input type="text" class="form-control" name="first_name"> 
+    </div>
+    <div class="form-group w-50">
+        <label for="last_name">Lastname</label>
+        <input type="text" class="form-control" name="last_name"> 
+    </div>
+    <div class="form-group w-50">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" name="email"> 
+    </div>
+    <div class="form-group w-50">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" name="username"> 
+    </div>
+    <div class="form-group w-50">
+        <label for="">Password</label>
+        <input type="password" class="form-control" name="password"> 
+    </div>
+    <div class="form-group w-50">
+        <label for="">Confirm Password</label>
+        <input type="password" class="form-control" name="password2"> 
+    </div>
+    <br>
+    <input type="submit" value="ลงทะเบียน" class="btn btn-primary">
+    
+</form>
+
+{% endblock %}

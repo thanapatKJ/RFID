@@ -1,0 +1,33 @@
+{% extends 'WebApplication/base.html' %}
+
+{% block content %}
+
+<h2 align="center">ลงทะเบียน</h2>
+{% if messages %}
+<div class="alert alert-danger" role="alert">
+    {% for messages in messages %}
+    <h5>{{messages}}</h5>
+    {% endfor%}
+</div>
+{%endif%}
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group w-50">
+        <label for="name">Tag : {{objects.tag_id}}</label>
+    </div>
+    <div class="form-group w-50">
+        <label for="name">ชื่อ</label>
+        <input type="text" class="form-control" name="tag_name" value="{{objects.tag_name}}"> 
+    </div>
+    <div class="form-group w-50">
+        <label for="status">สถานะ</label>
+        <input type="text" class="form-control" name="status"value="{{objects.status}}"> 
+    </div>
+    <br>
+    <input type="submit" value="แก้ไข" class="btn btn-primary">
+    <input type="button" value="ยกเลิก" class="btn btn-primary">
+
+</form>
+
+{% endblock %}

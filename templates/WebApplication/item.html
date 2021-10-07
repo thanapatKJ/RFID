@@ -1,0 +1,23 @@
+{% extends 'WebApplication/base.html' %}
+
+
+{% block content %}
+
+<h2 align="center">Tag ID {{objects.tag_id}}</h2>
+
+{{objects.tag_name}} <br>
+{{objects.add_date}} <br>
+{{objects.status}} <br>
+{% if objects.student_id %}
+    {{objects.borrow_time}} <br>
+    {{objects.student_id}} <br>
+{% endif %}
+
+{% if objects.picture %}
+    <img style="width:300px; height:300px" src="{{objects.picture.url}}">
+{% endif %}
+
+
+
+
+{% endblock %}
