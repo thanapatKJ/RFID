@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h2 align="center">ลงทะเบียน</h2>
+<h2 align="center">แก้ไขข้อมูลอุปกรณ์</h2>
 {% if messages %}
 <div class="alert alert-danger" role="alert">
     {% for messages in messages %}
@@ -22,12 +22,24 @@
     </div>
     <div class="form-group w-50">
         <label for="status">สถานะ</label>
-        <input type="text" class="form-control" name="status"value="{{objects.status}}"> 
+        <select class="form-control" id="status" name="status">
+            <option value="{{objects.status}}" selected disabled hidden>{{objects.status}}</option>
+            <option value="อุปกรณ์อยู่">อุปกรณ์อยู่</option>
+            <option value="อุปกรณ์ไม่อยู่">อุปกรณ์ไม่อยู่</option>
+            {% if objects.status != "กำลังดำเนินการ" %}
+                <option value="กำลังดำเนินการ">ขอยืม</option>
+            {% endif %}
+          </select>
+        <!-- <input type="text" class="form-control" name="status"value="{{objects.status}}">  -->
     </div>
+    {% if objects.status != "กำลังดำเนินการ"%}
+        <div class="form-group w-50">
+            <label for="name" >เลขบัตรนักศึกษา</label>
+            <input type="text" class="form-control" name="student_id"> 
+        </div>
+    {% endif %}
     <br>
     <input type="submit" value="แก้ไข" class="btn btn-primary">
     <input type="button" value="ยกเลิก" class="btn btn-primary">
-
-</form>
 
 {% endblock %}

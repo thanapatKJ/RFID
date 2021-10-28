@@ -1,7 +1,6 @@
 from django.contrib import admin
-from .models import ObjectInfo, NotAllowed
+from .models import ObjectHistory, ObjectInfo, NotAllowed
 
 admin.site.register(NotAllowed)
 admin.site.register(ObjectInfo)
-
-# Register your models here.
+admin.site.register(ObjectHistory)

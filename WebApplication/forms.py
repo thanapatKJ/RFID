@@ -35,8 +35,8 @@ class UserForm(UserCreationForm):
 class ObjectForm(ModelForm):
     class Meta:
         all_status = [
-        ('อยู่','อุปกรณ์อยู่'),
-        ('ไม่อยู่','อุปกรณ์ไม่อยู่'),
+        ('อุปกรณ์อยู่','อุปกรณ์อยู่'), 
+        ('อุปกรณ์ไม่อยู่','อุปกรณ์ไม่อยู่'),
         ]
         model = ObjectInfo
         fields = ('tag_id','tag_name','status')

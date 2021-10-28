@@ -16,11 +16,10 @@
             <th scope="col">ชื่อ</th>
             <th scope="col">วันที่เพิ่ม</th>
             <th scope="col">สถานะ</th>
-          
         </tr>
     </thead>
     <tbody id="table-data">
-    {% for object in objects %}    
+    <!-- {% for object in objects %}    
       <tr class="table-active" id="table">
         <th scope="row">{{forloop.counter}}</th>
         <td><a href="{% url 'WebApplication:item' object.tag_id %}"> {{object.tag_id}}</a></td>
@@ -30,7 +29,7 @@
         <td><a href="{% url 'WebApplication:edit' object.tag_id %}">แก้ไข</a></td>      
         <td><a style="color: red" href="{% url 'WebApplication:delete' object.tag_id %}">ลบข้อมูล</a></td>      
       </tr>
-    {% endfor %} 
+    {% endfor %}  -->
     </tbody>
   </table>
 

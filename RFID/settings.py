@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'WebApplication',
     'API',
+    'django_cleanup.apps.CleanupConfig',
+    'rest_framework',
+
 ]
 
 MIDDLEWARE = [
@@ -131,3 +134,11 @@ LOGIN_URL = 'login/'
 
 MEDIA_URL = '/images/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+
+EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER='Mechatronicsstore00@gmail.com'
+EMAIL_HOST_PASSWORD = 'mtet3048'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False

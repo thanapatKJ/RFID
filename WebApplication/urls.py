@@ -16,7 +16,7 @@ urlpatterns = [
     path('/<str:tag_id>', login_required(views.item), name='item'),
     path('not_allow/', login_required(views.not_allow), name='not_allow'),
     path('edit_notallow/<str:date_time>',login_required(views.editNotAllow), name='editNotAllow'),
-
+    path('delete_history/<str:id>', login_required(views.delete_history), name='deleteHistory'),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
