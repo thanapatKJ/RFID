@@ -117,7 +117,7 @@ def not_allow(request):
 
 def editNotAllow(request,date_time):
     objects = NotAllowed.objects.get(date_time=date_time)
-    return render(request, 'WebApplication/item.html',{'objects':objects})
+    return render(request, 'WebApplication/item_notAllow.html',{'objects':objects})
 
 def notFound(request):
     objects = NotFound.objects.all()

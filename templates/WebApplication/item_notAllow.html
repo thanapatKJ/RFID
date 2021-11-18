@@ -1,0 +1,37 @@
+{% extends 'WebApplication/base.html' %}
+
+
+{% block content %}
+
+
+{{objects.date_time}} <br>
+<img style="width:200px; height:200px" src="{{objects.picture.url}}">
+
+{% if objects_history %}
+<h4 align="center">ประวัติการยืม</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">เลขนักศึกษา</th>
+            <th scope="col">วันที่ยืม</th>
+            <th scope="col">วันที่คืน</th>
+            <th scope="col">รูปภาพ</th>
+        </tr>
+    </thead>
+    <tbody id="table-data">
+        {% for object in objects_history %}    
+          <tr class="table-active" id="table">
+            <td>{{object.student_id}}</td>   
+            <td>{{object.borrow_time}}</td> 
+            <td>{{object.return_time}}</td>
+            <!-- {% if object.picture %} -->
+            <td><img style="width:200px; height:200px" src="{{object.picture.url}}"></td>
+            <!-- {% endif %} -->
+            <td><a style="color: red" href="{% url 'WebApplication:deleteHistory' object.id %}">ลบข้อมูล</a></td>      
+          </tr>
+        {% empty %}
+        {% endfor %} 
+        </tbody>
+      </table>
+{% endif %}
+{% endblock %}  
