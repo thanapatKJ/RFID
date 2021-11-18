@@ -39,7 +39,7 @@ class ObjectForm(ModelForm):
         ('อุปกรณ์ไม่อยู่','อุปกรณ์ไม่อยู่'),
         ]
         model = ObjectInfo
-        fields = ('tag_id','tag_name','status')
+        fields = ('tag_id','tag_name','status','picture')
         widgets = {
             'tag_id': TextInput(attrs = {
                 'class': 'form-group w-50'

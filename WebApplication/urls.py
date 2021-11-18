@@ -13,10 +13,13 @@ urlpatterns = [
     path('logout/', login_required(views.logout), name='logout'),
     path('delete/<str:tag_id>', login_required(views.delete), name='delete'),
     path('add/', login_required(views.add), name='add'),
-    path('/<str:tag_id>', login_required(views.item), name='item'),
+    path('item/<str:tag_id>/', login_required(views.item), name='item'),
     path('not_allow/', login_required(views.not_allow), name='not_allow'),
     path('edit_notallow/<str:date_time>',login_required(views.editNotAllow), name='editNotAllow'),
     path('delete_history/<str:id>', login_required(views.delete_history), name='deleteHistory'),
+    path('notfound/',login_required(views.notFound), name='notFound'),
+
+    
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

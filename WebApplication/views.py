@@ -11,12 +11,13 @@ from datetime import datetime
 from django.contrib import messages
 
 from .forms import UserForm, ObjectForm
-from .models import ObjectHistory, ObjectInfo, NotAllowed
+from .models import NotFound, ObjectHistory, ObjectInfo, NotAllowed
 
 from django.core.mail import send_mail
 from RFID.settings import EMAIL_HOST_USER
 
 def login(request):
+    error = ""
     if request.user.is_authenticated:
         return redirect('/')
 
@@ -28,8 +29,10 @@ def login(request):
             auth_login(request, user)
             return redirect('/')
         else:
-            messages.info(request, 'Username หรือ Password ไม่ถูกต้อง')
-    return render(request,'WebApplication/login.html')
+            error = "User หรือ Password ไม่ถูกต้อง"
+    return render(request,'WebApplication/login.html',{
+        'error':error,
+    })
 
 def logout(request):
     auth_logout(request)
@@ -53,6 +56,7 @@ def register(request):
 
 def home(request):
     objects = ObjectInfo.objects.all()
+    # objects = []
     # subject="การยืมครุภัณฑ์โดยไม่ได้รับอนุญาต"
     # message="ชื่ออุปกรณ์: Hammer \nชื่อผู้ยืม: ธนพัฒน์ คล้ายจำแลง \nวันเวลา:12/10/2564 1:32"
     # recipient="thanapatkjm@gmail.com"
@@ -92,11 +96,10 @@ def delete(request,tag_id):
 
 def add(request):
     if request.method == 'POST':
-        form = ObjectForm(request.POST)
+        form = ObjectForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
             return redirect('/')
-        form = ObjectForm(request.POST)
     else:
         form = ObjectForm()
     return render(request, 'WebApplication/add.html',{'form':form})
@@ -115,6 +118,10 @@ def not_allow(request):
 def editNotAllow(request,date_time):
     objects = NotAllowed.objects.get(date_time=date_time)
     return render(request, 'WebApplication/item.html',{'objects':objects})
+
+def notFound(request):
+    objects = NotFound.objects.all()
+    return render(request, 'WebApplication/not_found.html',{'objects':objects})
 
 # def email():
 #     subject="การยืมครุภัณฑ์โดยไม่ได้รับอนุญาต"

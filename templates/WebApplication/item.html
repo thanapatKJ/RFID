@@ -8,6 +8,8 @@
 {{objects.tag_name}} <br>
 {{objects.add_date}} <br>
 {{objects.status}} <br>
+{{objects.date_time}} <br>
+<img style="width:200px; height:200px" src="{{objects.picture.url}}">
 
 {% if objects_history %}
 <h4 align="center">ประวัติการยืม</h4>
@@ -27,7 +29,7 @@
             <td>{{object.borrow_time}}</td> 
             <td>{{object.return_time}}</td>
             <!-- {% if object.picture %} -->
-                <td><img style="width:200px; height:200px" src="{{object.picture.url}}"></td>
+            <td><img style="width:200px; height:200px" src="{{object.picture.url}}"></td>
             <!-- {% endif %} -->
             <td><a style="color: red" href="{% url 'WebApplication:deleteHistory' object.id %}">ลบข้อมูล</a></td>      
           </tr>
