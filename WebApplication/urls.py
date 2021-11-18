@@ -18,8 +18,7 @@ urlpatterns = [
     path('edit_notallow/<str:date_time>',login_required(views.editNotAllow), name='editNotAllow'),
     path('delete_history/<str:id>', login_required(views.delete_history), name='deleteHistory'),
     path('notfound/',login_required(views.notFound), name='notFound'),
-
-    
+    path('notfound/deleteNF/<str:id>',login_required(views.deleteNF), name='deleteNF'),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

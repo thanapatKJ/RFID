@@ -21,10 +21,10 @@
         {% for object in objects %}    
         <tr class="table-active">
             <th>{{forloop.counter}}</th>        
-            <td><a></a></td>
-            <td><a></a></td>
-            <td><a></a></td>
-            <td><a>ลบข้อมูล</a></td>
+            <td><a href="{% url 'WebApplication:item' object.tag.tag_id %}">{{object.tag.tag_id}}</a></td>
+            <td><a>{{object.tag.tag_name}}</a></td>
+            <td><a>{{object.tag.add_date}}</a></td>
+            <td><a href="{% url 'WebApplication:deleteNF' object.id %}">ลบข้อมูล</a></td>
 
         </tr>
         {% endfor %} 

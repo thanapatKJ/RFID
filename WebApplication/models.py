@@ -25,10 +25,12 @@ class ObjectInfo(models.Model):
 class NotAllowed(models.Model):
     picture = models.ImageField(upload_to="NotAllowed")
     date_time = models.DateTimeField()
+
     def __str__(self):
         return str(self.date_time)
 
 class NotFound(models.Model):
+    tag = models.OneToOneField(ObjectInfo,on_delete=models.CASCADE)
     # picture = models.ImageField(upload_to="NotFound")
     not_allow = models.ForeignKey(NotAllowed, on_delete=models.CASCADE)
     takeout_time = models.DateTimeField(default=datetime.now())
