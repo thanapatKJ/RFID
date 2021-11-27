@@ -8,6 +8,7 @@ class ObjectInfo(models.Model):
         ('อุปกรณ์ไม่อยู่','อุปกรณ์ไม่อยู่'), 
         ('กำลังดำเนินการ','กำลังดำเนินการ'),
         ('ถูกยืม','ถูกยืม'),
+        ('คืนของ','คืนของ'),
     ]
     tag_id = models.CharField(max_length=200, primary_key=True)
     tag_name = models.CharField(max_length=50)
