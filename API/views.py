@@ -36,8 +36,9 @@ class tagData(generics.GenericAPIView):
         #     objects.append({'tag_id':list.tag_id})
         # return HttpResponse(json.dumps(objects), content_type='application/json')
         objects = ObjectInfo.objects.get(tag_id=request.POST['tag_id'])
-        objects.status = 'ถูกยืม'
-        objects.save()
+        if objects.status == 'กำลังดำเนินการ' and request.POST['status']=="no":
+            objects.status = 'ถูกยืม'
+            objects.save()
 
 class notAllowed(generics.GenericAPIView):
     # ส่งทุก notAllowed # ไม่ได้ใช้

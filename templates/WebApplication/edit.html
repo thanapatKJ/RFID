@@ -24,10 +24,18 @@
         <label for="status">สถานะ</label>
         <select class="form-control" id="status" name="status">
             <option value="{{objects.status}}" selected disabled hidden>{{objects.status}}</option>
-            <option value="อุปกรณ์อยู่">อุปกรณ์อยู่</option>
-            <option value="อุปกรณ์ไม่อยู่">อุปกรณ์ไม่อยู่</option>
-            {% if objects.status != "กำลังดำเนินการ" %}
+            {% if objects.status == 'อุปกรณ์อยู่' or objects.status == 'อุปกรณ์ไม่อยู่'%}
+                <option value="อุปกรณ์อยู่">อุปกรณ์อยู่</option>
+                <option value="อุปกรณ์ไม่อยู่">อุปกรณ์ไม่อยู่</option>
                 <option value="กำลังดำเนินการ">ขอยืม</option>
+            {% elif objects.status == "กำลังดำเนินการ" %}
+                <option value="อุปกรณ์อยู่">อุปกรณ์อยู่</option>
+                <option value="อุปกรณ์ไม่อยู่">อุปกรณ์ไม่อยู่</option>
+            {% elif objects.status == "ถูกยืม" %}
+                <option value="คืนของ">คืนของ</option>
+            {% elif objects.status == "คืนของ" %}
+                <option value="อุปกรณ์อยู่">อุปกรณ์อยู่</option>
+                <option value="อุปกรณ์ไม่อยู่">อุปกรณ์ไม่อยู่</option>
             {% endif %}
           </select>
         <!-- <input type="text" class="form-control" name="status"value="{{objects.status}}">  -->

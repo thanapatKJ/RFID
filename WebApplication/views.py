@@ -74,12 +74,11 @@ def edit(request,tag_id):
                     student_id=request.POST['student_id'],
                     borrow_time=datetime.now()
                 )
-            elif (objects.status == 'กำลังดำเนินการ' and (request.POST['status']=='อุปกรณ์ไม่อยู่' or request.POST['status']=='อุปกรณ์อยู่')):
-                print('return krub---------')
+            elif (objects.status == 'ถูกยืม' and request.POST['status']=='คืนของ'):
                 latest = ObjectHistory.objects.filter(tag_id=tag_id).latest('id')
                 latest.return_time = datetime.now()
                 latest.save()
-                print(latest.return_time)
+
             objects.tag_name=request.POST['tag_name']
             objects.status=request.POST['status']
             objects.save()
@@ -87,8 +86,10 @@ def edit(request,tag_id):
     return render(request, 'WebApplication/edit.html',{'objects':objects})
 
 def delete_history(request,id):
-    ObjectHistory.objects.get(id=id).delete()
-    return redirect('/')
+    object = ObjectHistory.objects.get(id=id)
+    tag_id = object.tag_id.tag_id
+    object.delete()
+    return redirect('WebApplication:item',tag_id=tag_id)
 
 def delete(request,tag_id):
     ObjectInfo.objects.get(tag_id=tag_id).delete()
