@@ -15,13 +15,7 @@
             <th scope="col">วันที่</th>
         </tr>
     </thead>
-    <tbody id="table-data">
-      {% for object in objects %}    
-      <tr class="table-active">
-        <th>{{forloop.counter}}</th>        
-        <td>{{object.date_time}}<a href="{% url 'WebApplication:editNotAllow' object.date_time %}">(คลิกลิงค์เพื่อดูรูป)</a></td>
-      </tr>
-      {% endfor %} 
+    <tbody id="table-data"> 
     </tbody>
   </table>
   <script>
@@ -33,13 +27,17 @@
           success: function(response){
             $("#table-data").empty();
             for (var key in response.objects){
+              var deletetd = $('<td>');
               var row = $('<tr>').addClass('table-active');
               var cell1 = $('<th scope="row">').text(parseInt(key)+1);
               var cell21 = $('<td>').text(response.objects[key].date_time);
               var cell2url = '{% url "WebApplication:editNotAllow" "args1" %}'.replace('args1', response.objects[key].date_time);
               var cell22 = $('<a href="'+cell2url+'">').text('(คลิกลิงค์เพื่อดูรูป)');
+              var deleteurl = '{% url "WebApplication:delete_nl" "args1" %}'.replace('args1', response.objects[key].id);
+              var deletedata = $('<a href="'+deleteurl+'">').css('color','red').text('ลบข้อมูล');
               $(cell21).append(cell22);
-              $(row).append(cell1,cell21);
+              $(deletetd).append(deletedata);
+              $(row).append(cell1,cell21,deletetd);
               $("#table-data").append(row);
             }
           },

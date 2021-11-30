@@ -44,21 +44,7 @@ class ObjectHistory(models.Model):
         blank=True
     )
     picture = models.ImageField(null=True, blank=True,upload_to="ObjectHistory")
-    borrow_time = models.DateTimeField()
+    borrow_time = models.DateTimeField(null=True,blank=True)
     return_time = models.DateTimeField(null=True,blank=True)
     def __str__(self):
         return str(self.tag_id.tag_name) + " - "+ self.student_id
-
-# class NotFound(models.Model):
-#     user = models.CharField(max_length=20)
-    # @classmethod
-    # def borrow(cls):
-    #     cls.tag_id.status = "กำลังดำเนินการ"
-    #     cls.borrow_time = datetime.now()
-    #     return cls
-
-    # @classmethod
-    # def ret(cls):
-    #     cls.tag_id.status = "อุปกรณ์อยู่"
-    #     cls.return_time = datetime.now()
-    #     return cls

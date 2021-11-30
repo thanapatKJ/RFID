@@ -22,12 +22,12 @@
     </div>
     <div class="form-group w-50">
         <label for="status">สถานะ</label>
-        <select class="form-control" id="status" name="status">
+        <select class="form-control" id="status" name="status" onchange="statusChange(this)">
             <option value="{{objects.status}}" selected disabled hidden>{{objects.status}}</option>
             {% if objects.status == 'อุปกรณ์อยู่' or objects.status == 'อุปกรณ์ไม่อยู่'%}
                 <option value="อุปกรณ์อยู่">อุปกรณ์อยู่</option>
                 <option value="อุปกรณ์ไม่อยู่">อุปกรณ์ไม่อยู่</option>
-                <option value="กำลังดำเนินการ">ขอยืม</option>
+                <option id="borrow" value="กำลังดำเนินการ">ขอยืม</option>
             {% elif objects.status == "กำลังดำเนินการ" %}
                 <option value="อุปกรณ์อยู่">อุปกรณ์อยู่</option>
                 <option value="อุปกรณ์ไม่อยู่">อุปกรณ์ไม่อยู่</option>
@@ -40,14 +40,34 @@
           </select>
         <!-- <input type="text" class="form-control" name="status"value="{{objects.status}}">  -->
     </div>
-    {% if objects.status != "กำลังดำเนินการ"%}
-        <div class="form-group w-50">
+        <div class="form-group w-50" id="id_card" style="display:none;">
             <label for="name" >เลขบัตรนักศึกษา</label>
-            <input type="text" class="form-control" name="student_id"> 
+            <input type="text" id="id_ip" class="form-control" name="student_id"> 
         </div>
-    {% endif %}
     <br>
     <input type="submit" value="แก้ไข" class="btn btn-primary">
     <input type="button" value="ยกเลิก" class="btn btn-primary">
+    <script>
+        function statusChange(nameSelect)
+        {
+            if(nameSelect){
+                admOptionValue = document.getElementById("borrow").value;
+                if(admOptionValue == nameSelect.value){
+                    document.getElementById("id_card").style.display = "block";
+                    document.getElementById("id_ip").required = true;
+                }
+                else{
+                    document.getElementById("id_card").style.display = "none";
+                    document.getElementById("id_ip").required = false;
+
+                }
+            }
+            else{
+                document.getElementById("id_card").style.display = "none";
+                document.getElementById("id_ip").required = false;
+
+            }
+}
+    </script>
 
 {% endblock %}

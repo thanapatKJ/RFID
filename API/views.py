@@ -1,7 +1,7 @@
-from WebApplication.models import ObjectInfo, NotAllowed
+from WebApplication.models import ObjectInfo, NotAllowed,ObjectHistory
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.models import User
-
+from datetime import datetime
 from rest_framework import generics
 
 import json
@@ -31,12 +31,13 @@ class tagData(generics.GenericAPIView):
     
     # รับ tag_id และ status กลับมา save ไว้ใน database
     def post(self, request):
-        # objects = []
-        # for list in ObjectInfo.objects.all():
-        #     objects.append({'tag_id':list.tag_id})
-        # return HttpResponse(json.dumps(objects), content_type='application/json')
         objects = ObjectInfo.objects.get(tag_id=request.POST['tag_id'])
         if objects.status == 'กำลังดำเนินการ' and request.POST['status']=="no":
+            history = ObjectHistory.objects.get(
+                    tag_id=objects,
+                ).latest('id')
+            history.borrow_time = datetime.now()
+            history.save()
             objects.status = 'ถูกยืม'
             objects.save()
 

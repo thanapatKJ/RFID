@@ -78,7 +78,7 @@
     </ul>
     <div>
       {% if user.is_authenticated %}
-        สวัสดี &nbsp {{user.first_name}}&nbsp&nbsp{{user.last_name}}
+        สวัสดี {{user.username}}
         
         <a class="btn btn-danger" href="{% url 'WebApplication:logout' %}">Logout</a>        
       {% else %} 

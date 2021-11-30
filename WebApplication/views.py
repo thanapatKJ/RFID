@@ -55,13 +55,12 @@ def register(request):
     return render(request,'WebApplication/register.html',{'form':form})
 
 def home(request):
-    objects = ObjectInfo.objects.all()
     # objects = []
     # subject="การยืมครุภัณฑ์โดยไม่ได้รับอนุญาต"
     # message="ชื่ออุปกรณ์: Hammer \nชื่อผู้ยืม: ธนพัฒน์ คล้ายจำแลง \nวันเวลา:12/10/2564 1:32"
     # recipient="thanapatkjm@gmail.com"
     # send_mail(subject,message,EMAIL_HOST_USER,[recipient],fail_silently=False)
-    return render(request,'WebApplication/home.html',{'objects':objects})
+    return render(request,'WebApplication/home.html',)
 
 def edit(request,tag_id):
     objects = ObjectInfo.objects.get(tag_id=tag_id)
@@ -72,13 +71,13 @@ def edit(request,tag_id):
                 ObjectHistory.objects.create(
                     tag_id=thistag,
                     student_id=request.POST['student_id'],
-                    borrow_time=datetime.now()
                 )
+            elif (objects.status == 'กำลังดำเนินการ' and (request.POST['status']=='อุปกรณ์ไม่อยู่' or request.POST['status']=='อุปกรณ์อยู่')):
+                ObjectHistory.objects.filter(tag_id=tag_id).latest('id').delete()
             elif (objects.status == 'ถูกยืม' and request.POST['status']=='คืนของ'):
                 latest = ObjectHistory.objects.filter(tag_id=tag_id).latest('id')
                 latest.return_time = datetime.now()
                 latest.save()
-
             objects.tag_name=request.POST['tag_name']
             objects.status=request.POST['status']
             objects.save()
@@ -116,13 +115,16 @@ def not_allow(request):
     objects = NotAllowed.objects.all()
     return render(request, 'WebApplication/not_allow.html',{'objects':objects})
 
+def delete_nl(request,id):
+    NotAllowed.objects.get(id=id).delete()
+    return redirect('WebApplication:not_allow')
+
 def editNotAllow(request,date_time):
     objects = NotAllowed.objects.get(date_time=date_time)
     return render(request, 'WebApplication/item_notAllow.html',{'objects':objects})
 
 def notFound(request):
-    objects = NotFound.objects.all()
-    return render(request, 'WebApplication/not_found.html',{'objects':objects})
+    return render(request, 'WebApplication/not_found.html')
 
 def deleteNF(request,id):
     NotFound.objects.get(id=id).delete()

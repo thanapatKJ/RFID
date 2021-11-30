@@ -10,6 +10,6 @@ urlpatterns = [
     path('getAllNotAllowed/',views.getAllNotAllowed, name='getAllNotAllowed'),
     path('tagData/',views.tagData.as_view(), name='tagData'),
     path('notAllowed/',views.notAllowed.as_view(), name='notAllowed'),
-
+    # path0()
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
