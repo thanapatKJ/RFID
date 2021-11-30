@@ -50,9 +50,10 @@ class notAllowed(generics.GenericAPIView):
         NotAllowed.objects.create(
             picture=request.FILES['picture'],
             date_time=datetime.now())
-        # subject="การยืมครุภัณฑ์โดยไม่ได้รับอนุญาต"
-        # message="วันเวลา:"+request.POST['date_time']
-        # recipient=User.objects.get(username='admin').email
-        # send_mail(subject,message,EMAIL_HOST_USER,[recipient],fail_silently=False)
+        subject="การยืมครุภัณฑ์โดยไม่ได้รับอนุญาต"
+        message="วันเวลา:"+str(datetime.now())
+        recipient=User.objects.get(username='admin').email
+        print(recipient)
+        send_mail(subject,message,EMAIL_HOST_USER,[recipient],fail_silently=False)
         objects = {'status':'success'}
         return HttpResponse(json.dumps(objects), content_type='application/json')
