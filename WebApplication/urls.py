@@ -16,8 +16,7 @@ urlpatterns = [
     path('item/<str:tag_id>/', login_required(views.item), name='item'),
     path('not_allow/', login_required(views.not_allow), name='not_allow'),
     path('not_allow/<str:id>', login_required(views.delete_nl), name='delete_nl'),
-
-    path('item_notallow/<str:date_time>',login_required(views.editNotAllow), name='editNotAllow'),
+    path('item_notallow/<str:id>',login_required(views.editNotAllow), name='editNotAllow'),
     path('delete_history/<str:id>', login_required(views.delete_history), name='deleteHistory'),
     path('notfound/',login_required(views.notFound), name='notFound'),
     path('notfound/deleteNF/<str:id>',login_required(views.deleteNF), name='deleteNF'),

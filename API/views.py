@@ -32,27 +32,24 @@ class tagData(generics.GenericAPIView):
     # รับ tag_id และ status กลับมา save ไว้ใน database
     def post(self, request):
         objects = ObjectInfo.objects.get(tag_id=request.POST['tag_id'])
-        if objects.status == 'กำลังดำเนินการ' and request.POST['status']=="no":
-            history = ObjectHistory.objects.get(
+        if objects.status == 'กำลังดำเนินการ' and request.POST['status']=="ถูกยืม":
+            history = ObjectHistory.objects.filter(
                     tag_id=objects,
                 ).latest('id')
             history.borrow_time = datetime.now()
             history.save()
             objects.status = 'ถูกยืม'
             objects.save()
+        elif request.POST['status'] == 'อุปกรณ์ไม่อยู่' or request.POST['status'] == 'อุปกรณ์อยู่':
+            objects.status = request.POST['status']
+            objects.save()
 
 class notAllowed(generics.GenericAPIView):
-    # ส่งทุก notAllowed # ไม่ได้ใช้
-    def get(self, request):
-        objects = []
-        for list in NotAllowed.objects.all():
-            objects.append({'date_time':list.date_time})
-        print(objects)
-        return HttpResponse(json.dumps(objects), content_type='application/json')
-
     # รับ NotAllowed กลับมาเก็บไว้ใน Database พร้อมส่ง Email ไปให้ superuser
     def post(self,request):
-        
+        NotAllowed.objects.create(
+            picture=request.FILES['picture'],
+            date_time=datetime.now())
         # subject="การยืมครุภัณฑ์โดยไม่ได้รับอนุญาต"
         # message="วันเวลา:"+request.POST['date_time']
         # recipient=User.objects.get(username='admin').email

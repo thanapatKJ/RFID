@@ -31,7 +31,7 @@
               var row = $('<tr>').addClass('table-active');
               var cell1 = $('<th scope="row">').text(parseInt(key)+1);
               var cell21 = $('<td>').text(response.objects[key].date_time);
-              var cell2url = '{% url "WebApplication:editNotAllow" "args1" %}'.replace('args1', response.objects[key].date_time);
+              var cell2url = '{% url "WebApplication:editNotAllow" "args1" %}'.replace('args1', response.objects[key].id);
               var cell22 = $('<a href="'+cell2url+'">').text('(คลิกลิงค์เพื่อดูรูป)');
               var deleteurl = '{% url "WebApplication:delete_nl" "args1" %}'.replace('args1', response.objects[key].id);
               var deletedata = $('<a href="'+deleteurl+'">').css('color','red').text('ลบข้อมูล');

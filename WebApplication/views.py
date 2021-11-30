@@ -119,8 +119,8 @@ def delete_nl(request,id):
     NotAllowed.objects.get(id=id).delete()
     return redirect('WebApplication:not_allow')
 
-def editNotAllow(request,date_time):
-    objects = NotAllowed.objects.get(date_time=date_time)
+def editNotAllow(request,id):
+    objects = NotAllowed.objects.get(id=id)
     return render(request, 'WebApplication/item_notAllow.html',{'objects':objects})
 
 def notFound(request):
