@@ -37,9 +37,15 @@ class tagData(generics.GenericAPIView):
                     tag_id=objects,
                 ).latest('id')
             history.borrow_time = datetime.now()
+            history.picture = request.FILES['picture']
             history.save()
             objects.status = 'ถูกยืม'
             objects.save()
+
+            subject="การยืมครุภัณฑ์"
+            recipient=User.objects.get(username='admin').email
+            message="ชื่ออุปกรณ์: "+str(history.tag_id.tag_name)+" \nรหัสนักศึกษา: "+str(history.student_id) + " \nวันเวลา:" +str(history.borrow_time)
+            send_mail(subject,message,EMAIL_HOST_USER,[recipient],fail_silently=False)
         elif request.POST['status'] == 'อุปกรณ์ไม่อยู่' or request.POST['status'] == 'อุปกรณ์อยู่':
             objects.status = request.POST['status']
             objects.save()
@@ -57,3 +63,4 @@ class notAllowed(generics.GenericAPIView):
         send_mail(subject,message,EMAIL_HOST_USER,[recipient],fail_silently=False)
         objects = {'status':'success'}
         return HttpResponse(json.dumps(objects), content_type='application/json')
+

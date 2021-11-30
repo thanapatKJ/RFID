@@ -129,10 +129,3 @@ def notFound(request):
 def deleteNF(request,id):
     NotFound.objects.get(id=id).delete()
     return redirect(request, 'WebApplication:notFound')
-# def email():
-#     subject="การยืมครุภัณฑ์โดยไม่ได้รับอนุญาต"
-#     message="ชื่ออุปกรณ์: Hammer \nชื่อผู้ยืม: ธนพัฒน์ คล้ายจำแลง \nวันเวลา:12/10/2564 1:32"
-#     recipient="Buathongarithuch@gmail.com"
-#     send_mail(subject,message,EMAIL_HOST_USER,[recipient],fail_silently=False)
-#     return HttpResponse("Email Sent")
-
