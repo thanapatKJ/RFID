@@ -15,7 +15,7 @@ class ObjectInfo(models.Model):
     add_date = models.DateField(auto_now_add=True)
     status = models.CharField(
         max_length=20,
-        default='อยู่',
+        default='อุปกรณ์อยู่',
         choices=all_status
     )
     picture = models.ImageField(upload_to="ObjectInfo",null=True,blank=True)
@@ -32,7 +32,6 @@ class NotAllowed(models.Model):
 
 class NotFound(models.Model):
     tag = models.OneToOneField(ObjectInfo,on_delete=models.CASCADE)
-    # picture = models.ImageField(upload_to="NotFound")
     not_allow = models.ForeignKey(NotAllowed, on_delete=models.CASCADE)
     takeout_time = models.DateTimeField(default=datetime.now())
 

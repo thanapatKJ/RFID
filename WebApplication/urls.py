@@ -20,6 +20,8 @@ urlpatterns = [
     path('delete_history/<str:id>', login_required(views.delete_history), name='deleteHistory'),
     path('notfound/',login_required(views.notFound), name='notFound'),
     path('notfound/deleteNF/<str:id>',login_required(views.deleteNF), name='deleteNF'),
+    path('notfound/itemNF/<str:id>',login_required(views.itemNF), name='itemNF'),
+
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

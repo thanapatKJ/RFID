@@ -124,8 +124,13 @@ def editNotAllow(request,id):
     return render(request, 'WebApplication/item_notAllow.html',{'objects':objects})
 
 def notFound(request):
-    return render(request, 'WebApplication/not_found.html')
+    objects = NotFound.objects.all()
+    return render(request, 'WebApplication/not_found.html',{'objects':objects})
 
 def deleteNF(request,id):
     NotFound.objects.get(id=id).delete()
-    return redirect(request, 'WebApplication:notFound')
+    return redirect('WebApplication:notFound')
+
+def itemNF(request,id):
+    objects = NotFound.objects.get(id=id)
+    return render(request, 'WebApplication/item_notFound.html',{'objects':objects})

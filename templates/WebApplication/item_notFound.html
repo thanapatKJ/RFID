@@ -1,0 +1,13 @@
+{% extends 'WebApplication/base.html' %}
+
+
+{% block content %}
+
+
+{{objects.tag.tag_id}} <br>
+{{objects.tag.tag_name}} <br>
+{{objects.takeout_time}} <br>
+
+<img style="width:200px; height:200px" src="{{objects.tag.picture.url}}">
+
+{% endblock %}  

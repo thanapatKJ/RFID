@@ -1,4 +1,4 @@
-from WebApplication.models import ObjectInfo, NotAllowed,ObjectHistory
+from WebApplication.models import NotFound, ObjectInfo, NotAllowed,ObjectHistory
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.models import User
 from datetime import datetime
@@ -49,6 +49,14 @@ class tagData(generics.GenericAPIView):
         elif request.POST['status'] == 'อุปกรณ์ไม่อยู่' or request.POST['status'] == 'อุปกรณ์อยู่':
             objects.status = request.POST['status']
             objects.save()
+        elif objects.status == 'คืนของ' and request.POST['status']=="อุปกรณ์อยู่":
+            history = ObjectHistory.objects.filter(
+                    tag_id=objects,
+                ).latest('id')
+            history.return_time = datetime.now()
+            history.save()
+            objects.status = 'อุปกรณ์อยู่'
+            objects.save()
 
 class notAllowed(generics.GenericAPIView):
     # รับ NotAllowed กลับมาเก็บไว้ใน Database พร้อมส่ง Email ไปให้ superuser
@@ -64,3 +72,12 @@ class notAllowed(generics.GenericAPIView):
         objects = {'status':'success'}
         return HttpResponse(json.dumps(objects), content_type='application/json')
 
+class notFound(generics.GenericAPIView):
+    
+    def post(self,request):
+        print('not Found ------')
+        not_allow = NotAllowed.objects.latest('id')
+        print(not_allow)
+        tag = ObjectInfo.objects.get(tag_id=request.POST['tag_id'])
+        print(tag)
+        NotFound.objects.create(tag=tag,not_allow=not_allow,takeout_time=datetime.now())
