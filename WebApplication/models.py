@@ -31,7 +31,7 @@ class NotAllowed(models.Model):
         return str(self.date_time)
 
 class NotFound(models.Model):
-    tag = models.OneToOneField(ObjectInfo,on_delete=models.CASCADE)
+    tag = models.ForeignKey(ObjectInfo,on_delete=models.CASCADE)
     not_allow = models.ForeignKey(NotAllowed, on_delete=models.CASCADE)
     takeout_time = models.DateTimeField(default=datetime.now())
 
