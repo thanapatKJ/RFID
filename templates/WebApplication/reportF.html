@@ -1,0 +1,52 @@
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+{% extends 'WebApplication/base.html' %}
+
+{% block content %}
+<title>Mechatronis store</title>
+<h2 align="center">รายละเอียดการใช้ครุภัณฑ์ประจำเดือน {{date}}</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ลำดับ</th>
+            <th scope="col">ID</th>
+            <th scope="col">ชื่อ</th>
+            <th scope="col">วัน-เวลาที่บันทึก</th>
+            <th scope="col">ยืม</th>
+            <th scope="col">คืน</th>
+            <th scope="col">Not Found</th>
+        </tr>
+    </thead>
+    <tbody id="table-data">
+    {% for object in objects %}    
+      <tr class="table-active" id="table">
+        {% if object.type == "hist" %}
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{object.id}}</td>
+          <td>{{object.name}}</td>
+          <td></td>
+          <td>{{object.datetime}}</td> 
+          <td>{{object.return_time}}</td>
+          <td></td>
+
+        {% else %}
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{object.id}}</td>
+          <td>{{object.name}}</td>
+          <td>{{object.datetime}}</td>
+          <td></td>
+          <td></td>
+          <td style="text-align: center; vertical-align: middle;"> <h3>&#x2713;</h3></td>
+
+        {% endif %} 
+      </tr>
+    {% endfor %} 
+    </tbody>
+  </table>
+
+  </ul>
+
+{% endblock %}

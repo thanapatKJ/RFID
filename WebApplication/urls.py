@@ -21,6 +21,9 @@ urlpatterns = [
     path('notfound/',login_required(views.notFound), name='notFound'),
     path('notfound/deleteNF/<str:id>',login_required(views.deleteNF), name='deleteNF'),
     path('notfound/itemNF/<str:id>',login_required(views.itemNF), name='itemNF'),
+    path('report/',login_required(views.report), name='report'),
+    path('reportF/<str:date>',login_required(views.reportF), name='reportF'),
+
 
 
 ]

@@ -6,8 +6,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 
-from datetime import datetime
-
+import datetime
+import calendar
 from django.contrib import messages
 
 from .forms import UserForm, ObjectForm
@@ -15,6 +15,9 @@ from .models import NotFound, ObjectHistory, ObjectInfo, NotAllowed
 
 from django.core.mail import send_mail
 from RFID.settings import EMAIL_HOST_USER
+
+from pythainlp.util import thai_strftime
+
 
 def login(request):
     error = ""
@@ -76,7 +79,7 @@ def edit(request,tag_id):
                 ObjectHistory.objects.filter(tag_id=tag_id).latest('id').delete()
             elif (objects.status == 'ถูกยืม' and request.POST['status']=='คืนของ'):
                 latest = ObjectHistory.objects.filter(tag_id=tag_id).latest('id')
-                latest.return_time = datetime.now()
+                latest.return_time = datetime.datetime.now()
                 latest.save()
             objects.tag_name=request.POST['tag_name']
             objects.status=request.POST['status']
@@ -134,3 +137,58 @@ def deleteNF(request,id):
 def itemNF(request,id):
     objects = NotFound.objects.get(id=id)
     return render(request, 'WebApplication/item_notFound.html',{'objects':objects})
+
+
+
+# Report Page
+def report(request):
+    allList = []
+    # รับข้อมูลจาก Object History
+    list_hist = ObjectHistory.objects.order_by("borrow_time").first()
+    if list_hist is not None:
+        allList.append(list_hist.borrow_time)
+    # รับข้อมูลจาก Not Found
+    list_NF = NotFound.objects.order_by("takeout_time").first()
+    if list_NF is not None:
+        allList.append(list_NF.takeout_time)
+    # รับข้อมูลจาก Not Allow
+    list_NA = NotAllowed.objects.order_by("date_time").first()
+    if list_NA is not None:
+        allList.append(list_NA.date_time)
+    allMonth = []
+    if allList is not None:
+        firstMonth = sorted(allList)[0].month
+        firstYear = sorted(allList)[0].year
+        thisMonth = datetime.datetime.now().month
+        thisYear = datetime.datetime.now().year
+        while firstYear<=thisYear:
+            while firstMonth<=thisMonth and firstMonth <= 12:
+                allMonth.append({'MonthYear': str(firstMonth) +'-'+str(firstYear) ,'month': calendar.month_name[firstMonth] ,'year':firstYear})
+                firstMonth+=1
+            firstYear+=1
+            firstMonth=0
+    return render(request, 'WebApplication/report.html',{'objects':allMonth})
+
+def reportF(request,date):
+    month, year = date.split('-')
+    month, year = int(month),int(year)
+    list_hist = ObjectHistory.objects.filter(borrow_time__year = year, borrow_time__month=month)
+    list_NF = NotFound.objects.filter(takeout_time__year = year, takeout_time__month=month)
+    list_NA = NotAllowed.objects.filter(date_time__year = year, date_time__month=month)
+    allList = []
+    for i in list_hist:
+        allList.append({
+            'id':i.tag_id.tag_id,
+            'name':i.tag_id.tag_name,
+            'datetime':i.borrow_time,
+            'return_time':i.return_time,
+            'type':'hist'})
+    for i in list_NF:
+        allList.append({
+            'id':i.tag.tag_id,
+            'name':i.tag.tag_name,
+            'datetime':i.takeout_time,
+            'type':'NF'})
+    allList = sorted(allList, key=lambda d: d['datetime']) 
+    print(allList)
+    return render(request, 'WebApplication/reportF.html',{'objects':allList,'date':date})
